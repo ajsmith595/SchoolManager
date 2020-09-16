@@ -1,0 +1,22 @@
+<% 
+layout('Layouts/Main');
+title('Create a School');
+setActiveNavbar('/school');
+
+%>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="w-100 d-flex">
+                        <span class="h2 flex-fill text-xs font-weight-bold text-primary text-uppercase mb-1">Create a
+                            School</span>
+                    </div>
+                    <hr>
+                    <%- include('../Partials/Form', {form}) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

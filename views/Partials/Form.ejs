@@ -1,0 +1,112 @@
+<form method="<%= form.Method %>" <%= form.URL == "" ? "" : `action="${form.URL}"` %>>
+    <div class="form-row">
+        <% 
+    function createInputs(fields, prefix = ""){
+        for(let field of fields){
+            if(field.fieldOrSection == "section"){
+                %>
+    </div>
+    <hr>
+    <div class="form-group">
+        <h2><%= field.displayName %></h2>
+        <div class="form-row">
+            <%
+                createInputs(field.fields, field.name + ".");
+                %>
+        </div>
+    </div>
+    <hr>
+    <div class="form-row">
+        <%
+            }
+            else{
+                field.errors = field.errors || [];
+                %>
+        <div class="form-group <%= field.options.columnSpace ? "col-" + field.options.columnSpace : "col" %>">
+            <label><%= field.options.displayName %></label>
+            <%           
+            let errs = form.Errors.filter(e => e.for == prefix +  field.name).concat(field.errors); 
+            if(field.type == "enum"){ %>
+            <select class="form-control<%= errs.length == 0 ? '' : ' is-invalid' %>">
+                <% 
+                for(let month in field.options.enum.enumType){ 
+                %>
+                <option value="<%= field.options.enum.enumType[month] %>"><%= month %></option><%             
+                }
+                    %>
+            </select>
+            <%
+            }else{
+            %>
+            <input class="form-control<%= errs.length == 0 ? '' : ' is-invalid' %>" type="<%= field.type %>"
+                name="<%= prefix +  field.name %>"
+                <%- (!field.options.secret && !field.options.confirm && !field.options.isConfirm && field.options.value) ? ` value="${field.options.value}"` : "" %>
+                <%- field.options.autocomplete ? ` autocomplete="${field.options.autocomplete}"` : "" %> <% 
+                if(field.options.regex){
+                    %> pattern="<%= field.options.regex.pattern.source %>" <%
+                }
+                %> <%- field.options.required ? ' required' : '' %> />
+            <%
+            }
+            if(errs.length > 0){
+            %> <div class="invalid-feedback">
+                <% 
+                for(let error of errs){ %>
+                <%= error.text %><br>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+        <%
+        if(field.options.confirm){
+            let newOptions = {};
+            for(let x in field.options){
+                if(x != "confirm"){
+                    newOptions[x] = field.options[x];
+                }
+            }
+            newOptions.isConfirm = true;
+            newOptions.displayName = "Confirm " + newOptions.displayName;
+            let newField = {
+                options: newOptions,
+                name: field.name + ".confirm",
+                type: field.type,
+                errors: field.options.confirmErrors || []
+            };
+            createInputs([newField], "");
+        }
+            }
+        }
+    }
+    createInputs(form.Fields)
+    %>
+    </div>
+    <% 
+    
+    if(form.Errors && form.Errors.length > 0){ 
+        let formHasNonFieldRelatedErrors = false;
+        for(let err of form.Errors){
+            if(err.for == ""){
+                formHasNonFieldRelatedErrors = true;
+                break;
+            }
+        }
+        if(formHasNonFieldRelatedErrors){
+        %>
+    <div class="is-invalid d-none"></div>
+    <div class="invalid-feedback mb-3">
+        <% 
+        for(let err of form.Errors){ 
+            if(err.for == ""){ %>
+        <%= err.text %>
+        <% 
+            }
+        } 
+        %>
+    </div>
+    <% 
+        }
+    }
+%>
+    <button class="btn btn-primary">Submit</button>
+</form>

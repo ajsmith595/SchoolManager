@@ -1,0 +1,59 @@
+<form method="<%= form.Method %>" <%= form.Action ? `action="${form.Action}"` : ""%>>
+    <div class="form-row">
+        <%         
+        for (let field of form.Fields) { 
+            let fieldErr = form.Errors.find(e => e.name == field.name);
+            let errorStr = "";
+            if(fieldErr){
+                if(fieldErr.errors.includes("required")){
+                    errorStr = "This field is required.";
+                }
+                else if(fieldErr.errors.includes("type")){
+                    let a = "a";
+                    if("aeiou".includes(field.type[0].toLowerCase())){
+                        a += "n";
+                    }
+                    errorStr = `This field must be ${a} ${field.type}.`;
+                }
+                else if(fieldErr.errors.includes("regex")){
+                    errorStr = field.regex.failureString;
+                }
+                else if(fieldErr.errors.includes("min") || fieldErr.errors.includes("max")){
+                    errorStr = `This field must be between ${field.minLength} and ${field.maxLength}.`;
+                }
+                else if(fieldErr.errors.includes("minLength") || fieldErr.errors.includes("maxLength")){
+                    errorStr = `This field must be between ${field.minLength} and ${field.maxLength} characters long.`;
+                }
+                else if(fieldErr.errors.includes("exists")){
+                    errorStr += form.FieldExistsString(field.displayName);
+                }
+                else if(fieldErr.errors.includes("notExists")){
+                    errorStr += form.FieldNotExistsString(field.displayName);                    
+                }
+                else if(fieldErr.errors.includes("mustMatch")){
+                    let match = form.Fields.find(e => e.name == field.mustMatch);
+                    if(match){
+                    errorStr += "This field must match " + match.displayName;
+                    }
+                    else{
+                        errorStr += "There was a server error. Please contact tech support and quote the form used and error: 'must match field not found'";
+                    }
+                }
+            }
+            %>
+        <div class="form-group col-<%= field.columnSpace || 4 %>">
+            <label for="<%- field.customId || "_form_id_" + field.name %>"><%= field.displayName %></label>
+            <input type="<%= field.type %>" name="<%= field.name %>" <%- `class="form-control${field.additionalClasses ? " " + field.additionalClasses : ""}${fieldErr ? " border border-danger" : ""}"` %><%-
+                    field.autocomplete ? ` autocomplete="${field.autocomplete}"` : "" %> id="<%= field.customId || "_form_id_"
+                    + field.name %>"
+                <%- field.max ? ` max="${field.max}"` : "" %><%- field.min ? ` min"${field.min}"` : "" %><%- 
+                    field.maxLength ? ` maxlength="${field.maxLength}"` : "" %><%- field.minLength ?
+                    ` minlength="${field.minLength}"` : "" %><%-  field.regex ? ` pattern="${field.regex.pattern.source}"` : ""  %><%- field.required ? " required" : "" %><%- field.value ? ` value="${field.value}"` : "" %>>
+            <% if(fieldErr){ %>
+            <small class="form-text text-danger"><%= errorStr %></small>
+            <% } %>
+        </div>
+        <% } %>
+        <button class="btn btn-primary w-100 text-uppercase"><%= form.ButtonText %></button>
+    </div>
+</form>

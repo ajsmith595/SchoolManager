@@ -1,0 +1,77 @@
+<%
+let activeURL = block('navbar-active').toString();
+let links = {
+    left: [
+        {
+            text: 'Home',
+            url: '/',
+            requireLogin: true
+        },
+        {
+            text: 'Schools',
+            url: '/school'
+        }
+    ],
+    right: [
+        {
+            text: 'Login',
+            url: '/login',
+            requireLogin: false
+        },
+        {
+            text: 'Sign Up',
+            url: '/signup',
+            requireLogin: false
+        },
+        
+        {
+            text: 'Account',
+            url: '/account',
+            requireLogin: true
+        },
+        {
+            text: 'Logout',
+            url: '/logout',
+            requireLogin: true
+        },
+    ]
+};
+%>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">SchoolManager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+        aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggle">
+        <ul class="navbar-nav mr-auto">
+            <%
+                for(let block of links.left) {
+                    if(block.requireLogin === (currentUser == null))
+                            continue;
+                    let isActive = (block.url == activeURL || (block.url == "/" && activeURL == ""));
+            %>
+            <li class="nav-item <%= isActive ? 'active' : '' %>">
+                <a class="nav-link" href="<%= block.url %>"><%= block.text %> <% if(isActive){ %> <span
+                        class="sr-only">(current)</span> <% } %></a>
+            </li>
+            <% 
+                } 
+            %>
+        </ul>
+        <ul class="navbar-nav">
+            <%
+                for(let block of links.right) {
+                    if(block.requireLogin === (currentUser == null))
+                            continue;
+                    let isActive = (block.url == activeURL || (block.url == "/" && activeURL == ""));
+            %>
+            <li class="nav-item <%= isActive ? 'active' : '' %>">
+                <a class="nav-link" href="<%= block.url %>"><%= block.text %> <% if(isActive){ %> <span
+                        class="sr-only">(current)</span> <% } %></a>
+            </li>
+            <% } %>
+        </ul>
+    </div>
+</nav>

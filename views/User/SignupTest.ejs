@@ -1,0 +1,76 @@
+<% 
+layout('Layouts/Main');
+title('Signup');
+setActiveNavbar('/signup');
+jsFile('/js/signup.js');
+
+%>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="w-100 d-flex">
+                        <span class="flex-fill text-xs font-weight-bold text-primary text-uppercase mb-1">Sign Up</span>
+                        <span class="flex-fill ml-auto text-right"><a href="/login">Already have an account?
+                                Login!</a></span>
+                    </div>
+                    <form method="POST" action="/user/signup">
+                        <div class="form-row">
+
+                            <div class="form-group col-4">
+                                <label for="_form_id_firstName">First Name</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text" name="firstName"
+                                    class="form-control" autocomplete="given-name" id=" _form_id_firstName">
+                            </div>
+
+                            <div class="form-group col-8">
+                                <label for="_form_id_middleNames">Middle Name(s)</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text"
+                                    name="middleNames" class="form-control" autocomplete="additional-name"
+                                    id=" _form_id_middleNames">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <label for="_form_id_lastName">Last Name</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text" name="lastName"
+                                    class="form-control" autocomplete="family-name" id=" _form_id_lastName">
+                            </div>
+
+                            <div class="form-group col-8">
+                                <label for="_form_id_email">Email</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text" name="email"
+                                    class="form-control" autocomplete="email" id=" _form_id_email">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <label for="_form_id_dob">Date of Birth</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text" name="dob"
+                                    class="form-control" id=" _form_id_dob">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <label for="_form_id_password">Password</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text" name="password"
+                                    class="form-control" autocomplete="new-password" id=" _form_id_password">
+                            </div>
+
+                            <div class="form-group col-4">
+                                <label for="_form_id_passwordConfirm">Confirm Password</label>
+                                <input data-toggle="tooltip" data-placement="top" title="" type="text"
+                                    name="passwordConfirm" class="form-control" autocomplete="new-password"
+                                    id=" _form_id_passwordConfirm">
+                            </div>
+
+                            <button class="btn btn-primary w-100 text-uppercase">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

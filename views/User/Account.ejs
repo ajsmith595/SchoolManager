@@ -1,0 +1,42 @@
+<% 
+title('Account');
+setActiveNavbar('/account');
+%>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="w-100 d-flex">
+                        <span
+                            class="h2 flex-fill text-xs font-weight-bold text-primary text-uppercase mb-1">Account</span>
+                    </div>
+                    <table class="table">
+                        <tbody>
+                            <tr class="border-top-0">
+                                <th class="border-top-0" scope="row">Email</th>
+                                <td class="border-top-0"><%= currentUser.Email %></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">First Name</th>
+                                <td><%= currentUser.FirstName %></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Middle Names</th>
+                                <td><%= currentUser.MiddleNames %></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Last Name</th>
+                                <td><%= currentUser.LastName %></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Date Of Birth</th>
+                                <td><%= dateFormat(currentUser.Dob, "dS mmmm yyyy") %></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

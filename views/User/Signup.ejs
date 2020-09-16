@@ -1,0 +1,25 @@
+<% 
+layout('Layouts/Main');
+title('Signup');
+setActiveNavbar('/signup');
+jsFile('/js/signup.js');
+
+%>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                    <div class="w-100 d-flex">
+                        <span class="h2 flex-fill text-xs font-weight-bold text-primary text-uppercase mb-1">Sign
+                            Up</span>
+                        <span class="flex-fill ml-auto text-right"><a href="/login">Already have an account?
+                                Login!</a></span>
+                    </div>
+                    <hr>
+                    <%- include('../Partials/Form', {form}) %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

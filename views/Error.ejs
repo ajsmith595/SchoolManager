@@ -1,0 +1,7 @@
+<% 
+layout('Layouts/Main');
+title('Error '+ error.code);
+%>
+
+<h1 class="display-1">Error <%= error.code %></h1>
+<h1 class="display-3"><%= error.message %></h1>
